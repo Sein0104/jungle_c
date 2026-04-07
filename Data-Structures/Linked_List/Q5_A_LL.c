@@ -38,7 +38,7 @@ int removeNode(LinkedList *ll, int index);
 
 int main()
 {
-	int c, i;
+	int c = -1, i;
 	LinkedList ll;
 	LinkedList resultFrontList, resultBackList;
 
@@ -103,6 +103,39 @@ int main()
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
 	/* add your code here */
+	ListNode* cur = ll->head;
+	int move = 0;
+	ListNode* count = NULL;
+	ListNode* tmp = NULL;
+	if (cur == NULL) {
+		resultFrontList->head = NULL;
+		resultBackList->head = NULL;
+		resultFrontList->size = 0;
+		resultBackList->size = 0;
+		return;
+	}
+	while (cur != NULL) {		// NULL 이 아닐때까지 순회
+		move++;								// 개수 세기
+		if (move % 2 == 1 && count == NULL) {			// count 가 2씩 증가할때마다 move 가 1 증가
+			count = ll->head;						// 홀수 일때 resultFrontList 가 1더 커야하니까!
+		} else if (move % 2 == 1 && count != NULL) {
+			count = count->next;
+		}
+		cur = cur->next;
+	}
+	tmp = count->next;					// count 다음 임시 저장
+	resultFrontList->head = ll->head; // Front 리스트 head 는 맨 앞 노드
+	count->next = NULL; // Front 리스트 끝 노드는 count 노드니까 연결 끊어줌
+	resultBackList->head = tmp; // Back 리스트 head 는 count 다음 노드
+
+	if (move % 2 == 1) {
+		resultFrontList->size = (move / 2) + 1;
+	} else {
+		resultFrontList->size = (move / 2);
+	}
+	resultBackList->size = move - (resultFrontList->size);
+	ll->size = 0;
+	ll->head = NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

@@ -87,6 +87,48 @@ int main()
 void moveOddItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
+	if (ll->head == NULL) {
+		return;
+	}
+	ListNode *cur = ll->head;
+	ListNode *even1 = NULL;
+	ListNode *even2 = NULL;
+	ListNode *odd1 = NULL;
+	ListNode *odd2 = NULL;
+	ListNode *tmp = NULL;
+	
+	while (cur != NULL) {
+		tmp = cur->next;
+
+		if (even1 == NULL && cur->item % 2 == 0 ) {			// 짝수면 even저장, 홀수라면 odd저장
+			even1 = cur; 																		// 짝수
+			even2 = cur;
+			even2->next = NULL;
+		} else if (even1 != NULL && cur->item % 2 == 0 ) {	// 짝수
+			even2->next = cur;
+			even2 = cur;
+			even2->next = NULL;
+		} else if (odd1 == NULL && cur->item % 2 == 1) {	// 홀수
+			odd1 = cur;
+			odd2 = cur;
+			odd2->next = NULL;
+		}
+		else if (odd1 != NULL && cur->item % 2 == 1) {	// 홀수
+			odd2->next = cur;	 	
+			odd2 = cur;
+			odd2->next = NULL;
+		}
+		cur = tmp;
+	}
+	
+	if (even1 == NULL) {
+		return;
+	}
+	if (odd1 == NULL) {
+		return;
+	} 										
+	even2->next = odd1;
+	ll->head = even1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

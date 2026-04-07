@@ -11,7 +11,7 @@ Purpose: Implementing the required functions for Question 1 */
 
 //////////////////////////////////////////////////////////////////////////////////
 
-typedef struct _listnode{
+typedef struct _listnode{	
 	int item;                // 이 노드가 실제로 저장하는 정수 값
 	struct _listnode *next;  // 다음 노드를 가리키는 포인터. 마지막 노드는 NULL
 } ListNode;			// You should not change the definition of ListNode
@@ -109,16 +109,12 @@ int insertSortedLL(LinkedList *ll, int item)
 		cur = cur->next;
 		index ++;				// 연결리스트 순회
 	}
-		if (cur != NULL && cur->item > item) {	// 자기보다 큰 값 처음으로 만나면
-				insertNode(ll, index, item);			// 값 삽입
-				return;				// 리턴으로 끝냄? break 로 끝냄?
-			}							
 		if (cur != NULL && cur->item == item) {			// 중복이면 -1
 			return -1;
 			}	
-		}
-		insertNode(ll, index, item);	// 끝까지 안 만나면 맨 뒤에 삽입
-	
+		insertNode(ll, index, item);	// 자기보다 큰 값 만나거나 끝까지 안 만나면 맨 뒤에 삽입
+		return index;	// index 를 반환하라고 함
+	}		
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -150,7 +146,7 @@ void removeAllItems(LinkedList *ll)
 	// 먼저 tmp에 다음 노드를 저장해 두고 현재 노드를 해제한다.
 	while (cur != NULL){
 		tmp = cur->next;
-		free(cur);
+		free(cur);		// malloc ㄴㄴ면 free 필요 ㄴㄴ  + heap 은 개발자 관리영역 , stack 는 끄면 자동으로 삭제
 		cur = tmp;
 	}
 

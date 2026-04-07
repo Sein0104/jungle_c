@@ -36,6 +36,10 @@ int insertNode(LinkedList *ll, int index, int value);
 int removeNode(LinkedList *ll, int index);
 
 
+
+
+
+
 //////////////////////////// main() //////////////////////////////////////////////
 
 int main()
@@ -89,6 +93,37 @@ int main()
 int moveMaxToFront(ListNode **ptrHead)
 {
     /* add your code here */
+	//	ptrHead = head 의 주소
+	// *ptrHead = head 의 값 (=ListNode 의 주소)
+	// **ptrHead = ListNode
+	ListNode* cur = *ptrHead; // 순회 노드
+	ListNode* prev = NULL;
+	ListNode* max_node = *ptrHead; // 최댓값 저장
+	ListNode* max_prev = NULL;	// 최댓값 이전노드 저장
+
+	if (ptrHead == NULL) {
+		return 0;
+	}
+
+	while (cur != NULL) {
+		if (cur->item > max_node->item) {
+			max_node = cur;
+			max_prev = prev;
+		}
+		prev = cur;
+		cur = cur->next;
+	}
+
+	// 추가로 할 작업: 최댓값 이전꺼 연결끊기(안끊고변경) + 최댓값 다음 연결 끊기 / 최댓값 이전 노드의 다음 노드를 최댓값 다음 노드로 설정하기
+	
+	if (max_prev == NULL) {
+		return 0;
+	}
+
+	max_prev->next = max_node->next;	// 최댓값 이전노드의 다음연결은 최댓값노드의 다음 노드
+	max_node->next = *ptrHead;	// 최댓값노드의 다음 노드는 기존 head 노드
+	*ptrHead = max_node; // 최댓값 노드는 head
+	return 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////////
